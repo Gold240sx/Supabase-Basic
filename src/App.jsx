@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './components/Header';
 import { useState, useEffect } from 'react';
 import Todos from './components/Todos';
-import deleteTodo from './functions/deleteTodo';
 import { supabase } from './db/supabaseClient';
 
 function App() { 
@@ -10,11 +9,35 @@ function App() {
 
     useEffect(() => {
         const getTodos = async () => {
-            const allTodos = await fetchTodos()
-            setTodos(allTodos) // populate the react state;
-        }
+			// signup(email, password);
+            await signIn();
+			const allTodos = await fetchTodos();
+			setTodos(allTodos); // populate the react state;
+		}
         getTodos()
     }, [])
+
+    // Defaults for testing
+    const email = "240designworks@gmail.com";
+    const password = "password";
+
+    const signup = async (email, password) => {
+        const { user,  error } = await supabase.auth.signUp({
+            email,
+            password
+        });
+        if (error) console.log('error', error);
+    };
+
+    const signIn = async () => {
+        const { user, error } = await supabase.auth.signInWithPassword({
+			email: "240designworks@gmail.com",
+			password: "password",
+		});
+        if (error) {console.log('error', error)} else {console.log('Signed In as:', user)}
+    };
+
+
 
     const fetchTodos = async () => {
         let { data: Todos, error } = await supabase
