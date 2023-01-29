@@ -1,36 +1,45 @@
 import React from 'react';
 import Header from './components/Header';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Todos from './components/Todos';
 import deleteTodo from './functions/deleteTodo';
 import { supabase } from './db/supabaseClient';
 
 function App() { 
-    const [ todos, setTodos ] = useState([
-        {
-            id: 1,  
-            title: 'Take out the trash',
-        },
-        {   id: 2,
-            title: 'Grocery shopping',
-        },
-    ]);
+    const [todos, setTodos] = useState([]);
 
-const deleteFromSupabase = async (id) => {
-    const { data, error } = await supabase
-        .from('Todos')
-        .delete()
-        // .match({ id: id });
-        .eq( "id", id );
-    if (error) console.log('error', error);
-    console.log('data', data);
-};
+    useEffect(() => {
+        const getTodos = async () => {
+            const allTodos = await fetchTodos()
+            setTodos(allTodos) // populate the react state;
+        }
+        getTodos()
+    }, [])
 
-const deleteTodo = (id) => {
-	setTodos(todos.filter((todo) => todo.id !== id));
-	// delete from the backend
-	deleteFromSupabase(id);
-};
+    const fetchTodos = async () => {
+        let { data: Todos, error } = await supabase
+            .from('Todos')
+            .select('*')
+            .order('id', { ascending: true })
+        if (error) console.log('error', error);
+        return Todos;
+    };
+
+    const deleteFromSupabase = async (id) => {
+        const { data, error } = await supabase
+            .from('Todos')
+            .delete()
+            // .match({ id: id });
+            .eq( "id", id );
+        if (error) console.log('error', error);
+        console.log('data', data);
+    };
+
+    const deleteTodo = (id) => {
+        setTodos(todos.filter((todo) => todo.id !== id));
+        // delete from the backend
+        deleteFromSupabase(id);
+    };
 
   return (
 		<div className='dark:bg-gray-900 h-screen w-full flex justify-center align-middle flex-col mx-auto'>
