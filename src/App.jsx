@@ -104,7 +104,7 @@ function App() {
 			throw new Error("Error: The maximum number of addresses that can be processed is 25,000.");
 		}
 
-		const API_KEY = "AIzaSyDgliks5Q2pxtUtSecn43s4hi0KN9Ve24c";
+		const API_KEY = "";
 		const JSZip = await import("https://cdn.jsdelivr.net/npm/jszip@3.5.0/dist/jszip.min.js");
 		const MAX_FILE_SIZE = 3.98e9; // 3.98 GB
 		const zip = new JSZip();
