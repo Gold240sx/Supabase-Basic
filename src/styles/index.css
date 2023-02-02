@@ -6,4 +6,38 @@
     *, ** {
         box-sizing: border-box;
     }
+     body{ 
+	background: #eee; 
+  }
+  .container { 
+	  padding-top: 3.5rem; 
+  }
+
+  .row {
+	  padding: 14px 0;
+  }
+
+  .logo img {
+	  width: 300px;
+	  margin-right: 40px;
+  }
+
+  .top-right {
+	  position: absolute;
+	  top: 40px;
+	  right: 40px;
+  }
+
+  progress{ 
+	width: 100%; 
+	margin: 20px 0; 
+  }
+  
+  input[type="button"] {
+	  margin-right: 20px;
+  }
+
+  #zips {
+	  width: 100%;
+  }
 }
